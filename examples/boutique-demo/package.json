@@ -1,0 +1,18 @@
+{
+  "name": "boutique-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Démonstration d'observabilité HAI913I CM 04 — orchestration de la démonstration. Les dépendances de l'interface Angular vivent dans frontend/, pas ici.",
+  "type": "module",
+  "scripts": {
+    "agent": "node scripts/download-agent.mjs",
+    "backend": "node scripts/start-backend.mjs",
+    "backend:agent": "node scripts/start-backend.mjs --agent",
+    "scenario": "node scripts/backend-scenarios.mjs",
+    "captures": "node scripts/capture-all.mjs",
+    "verify:propagation": "node scripts/verify-propagation.mjs",
+    "verify:privacy": "node scripts/verify-privacy.mjs",
+    "verify": "node scripts/verify-propagation.mjs && node scripts/verify-privacy.mjs",
+    "publish": "node scripts/publish.mjs"
+  }
+}

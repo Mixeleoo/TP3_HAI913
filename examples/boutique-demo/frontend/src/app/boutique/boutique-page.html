@@ -1,0 +1,28 @@
+<app-boutique-actions
+  [enCours]="store.enCours()"
+  (lister)="store.listerProduits()"
+  (voirProduit)="store.voirProduit($event)"
+  (voirStock)="store.voirStock($event)"
+  (commander)="store.commander($event)"
+  (provoquerPanne)="store.provoquerPanne()"
+/>
+
+@let resultat = store.resultat();
+
+<section class="resultat" [class.echec]="resultat.etat === 'echec'">
+  <strong>Résultat</strong>
+  @if (resultat.etat === 'succes') {
+    <div>{{ resultat.message }}</div>
+  } @else if (resultat.etat === 'echec') {
+    <div>
+      {{ resultat.echec.message }}
+      <em class="categorie">{{ resultat.echec.categorie }}</em>
+    </div>
+  } @else {
+    <div>{{ store.enCours() ? '…' : '—' }}</div>
+  }
+</section>
+
+<app-product-list [produits]="store.produits()" />
+
+<app-trace-panel [traceId]="store.trace()" />

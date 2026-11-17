@@ -1,0 +1,17 @@
+<section class="actions">
+  <button (click)="lister.emit()" [disabled]="enCours()">
+    Lister les produits
+  </button>
+  <button (click)="voirProduit.emit('P-1002')" [disabled]="enCours()">
+    Voir P-1002
+  </button>
+  <button (click)="voirStock.emit('P-1003')" [disabled]="enCours()">
+    Stock de P-1003 (lent)
+  </button>
+  <button (click)="commander.emit('P-1003')" [disabled]="enCours()">
+    Commander P-1003
+  </button>
+  <button (click)="provoquerPanne.emit()" [disabled]="enCours()" class="danger">
+    Provoquer une panne
+  </button>
+</section>
