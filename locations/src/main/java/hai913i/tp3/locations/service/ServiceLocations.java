@@ -75,12 +75,11 @@ public class ServiceLocations {
         MouvementDistant mouvement = parc.retirer(codeStation);
         Location ouverte = depot.ouvrir(mouvement.identifiantVelo(), codeStation,
                                         horloge.instant(), domaine);
-        //  Jalon métier (Q3) : seul le domaine de l'adresse est émis, jamais l'adresse.
         log.atInfo()
-                .addKeyValue("reference", ouverte.reference())
-                .addKeyValue("station", ouverte.codeDepart())
-                .addKeyValue("domaine", ouverte.domaineAbonne())
-                .log("location.ouverte");
+        .addKeyValue("reference", ouverte.reference())
+        .addKeyValue("station", ouverte.codeDepart())
+        .addKeyValue("domaine", ouverte.domaineAbonne())
+        .log("location.ouverte");
         return ouverte;
     }
 
@@ -103,13 +102,13 @@ public class ServiceLocations {
         BigDecimal montant = Tarif.montant(duree);
         Location cloturee = depot.cloturer(reference, codeStation, fin, duree, montant);
         log.atInfo()
-                .addKeyValue("reference", cloturee.reference())
-                .addKeyValue("station_depart", cloturee.codeDepart())
-                .addKeyValue("station_arrivee", cloturee.codeArrivee())
-                .addKeyValue("duree_minutes", cloturee.dureeMinutes())
-                .addKeyValue("montant", cloturee.montant())
-                .addKeyValue("domaine", cloturee.domaineAbonne())
-                .log("location.cloturee");
+        .addKeyValue("reference", cloturee.reference())
+        .addKeyValue("station_depart", cloturee.codeDepart())
+        .addKeyValue("station_arrivee", cloturee.codeArrivee())
+        .addKeyValue("duree_minutes", cloturee.dureeMinutes())
+        .addKeyValue("montant", cloturee.montant())
+        .addKeyValue("domaine", cloturee.domaineAbonne())
+        .log("location.cloturee");
         return cloturee;
     }
 
