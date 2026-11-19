@@ -5,6 +5,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import hai913i.tp3.locations.depot.LocationDepot;
@@ -29,6 +31,8 @@ import hai913i.tp3.locations.parc.StationDistante;
  */
 @Service
 public class ServiceLocations {
+
+    private static final Logger log = LoggerFactory.getLogger(ServiceLocations.class);
 
     private final LocationDepot depot;
     private final ParcDistant parc;
@@ -69,8 +73,15 @@ public class ServiceLocations {
     public Location ouvrir(String codeStation, String courriel, String motDePasse) {
         String domaine = abonnes.verifier(courriel, motDePasse);
         MouvementDistant mouvement = parc.retirer(codeStation);
-        return depot.ouvrir(mouvement.identifiantVelo(), codeStation,
-                            horloge.instant(), domaine);
+        Location ouverte = depot.ouvrir(mouvement.identifiantVelo(), codeStation,
+                                        horloge.instant(), domaine);
+        //  Jalon métier (Q3) : seul le domaine de l'adresse est émis, jamais l'adresse.
+        log.atInfo()
+                .addKeyValue("reference", ouverte.reference())
+                .addKeyValue("station", ouverte.codeDepart())
+                .addKeyValue("domaine", ouverte.domaineAbonne())
+                .log("location.ouverte");
+        return ouverte;
     }
 
     /**
@@ -90,7 +101,16 @@ public class ServiceLocations {
         Instant fin = horloge.instant();
         int duree = Tarif.dureeMinutes(location.debut(), fin);
         BigDecimal montant = Tarif.montant(duree);
-        return depot.cloturer(reference, codeStation, fin, duree, montant);
+        Location cloturee = depot.cloturer(reference, codeStation, fin, duree, montant);
+        log.atInfo()
+                .addKeyValue("reference", cloturee.reference())
+                .addKeyValue("station_depart", cloturee.codeDepart())
+                .addKeyValue("station_arrivee", cloturee.codeArrivee())
+                .addKeyValue("duree_minutes", cloturee.dureeMinutes())
+                .addKeyValue("montant", cloturee.montant())
+                .addKeyValue("domaine", cloturee.domaineAbonne())
+                .log("location.cloturee");
+        return cloturee;
     }
 
     /**
